@@ -295,13 +295,14 @@ export default function ReviewSubmit({ data, onSubmit, onBack }: ReviewSubmitPro
                   Syarat & Ketentuan
                 </h4>
                 <div className="text-sm text-muted-foreground space-y-2 max-h-48 overflow-y-auto pr-2">
-                  <p>Dengan mengajukan pembiayaan KUR, Anda menyetujui:</p>
-                  <ol className="list-decimal list-inside space-y-1 ml-2">
-                    <li>Data yang saya berikan adalah benar dan dapat dipertanggungjawabkan</li>
-                    <li>Saya bersedia untuk melakukan verifikasi data jika diperlukan</li>
-                    <li>Saya memahami bahwa persetujuan pembiayaan tergantung pada hasil analisis kredit</li>
-                    <li>Saya bersedia mematuhi seluruh ketentuan yang berlaku</li>
-                    <li>Informasi pribadi akan digunakan sesuai kebijakan privasi yang berlaku</li>
+                  <p className="font-medium text-foreground">
+                    Dengan menekan tombol "Setuju & Ajukan Pinjaman", saya menyatakan:
+                  </p>
+                  <ol className="list-decimal list-inside space-y-2 ml-2">
+                    <li>Data dan informasi yang saya berikan adalah sesuai keadaan yang sebenar-benarnya.</li>
+                    <li>Saya menyetujui bahwa PT. Bank Rakyat Indonesia (Persero), Tbk. berwenang untuk memeriksa kebenaran data, mencari referensi, menyetujui/menolak pengajuan, dan memberikan data kepada pihak ketiga untuk pemrosesan.</li>
+                    <li>Bank tidak berkewajiban memberikan fasilitas kredit hingga semua persyaratan terpenuhi.</li>
+                    <li>Segala risiko dan konsekuensi akibat data yang tidak sesuai menjadi tanggung jawab saya sepenuhnya.</li>
                   </ol>
                 </div>
                 <button
@@ -339,7 +340,7 @@ export default function ReviewSubmit({ data, onSubmit, onBack }: ReviewSubmitPro
                 )}
               </div>
               <span className="text-sm font-medium text-foreground">
-                Saya menyetujui Syarat & Ketentuan yang berlaku
+                Setuju & Ajukan Pinjaman
               </span>
             </label>
           </div>
@@ -376,42 +377,55 @@ export default function ReviewSubmit({ data, onSubmit, onBack }: ReviewSubmitPro
             </div>
             <div className="p-6 overflow-y-auto max-h-[60vh]">
               <div className="text-sm text-foreground space-y-4">
+                <div className="p-4 bg-primary/5 rounded-lg border border-primary/20">
+                  <p className="font-semibold text-foreground mb-3">
+                    Dengan menekan tombol "Setuju & Ajukan Pinjaman" di bawah ini, saya menyatakan hal-hal sebagai berikut:
+                  </p>
+                </div>
+
                 <section>
-                  <h4 className="font-semibold mb-2">1. Ketentuan Umum</h4>
+                  <h4 className="font-semibold mb-2">1. Kebenaran Data</h4>
                   <p className="text-muted-foreground">
-                    Pembiayaan Kredit Usaha Rakyat (KUR) adalah kredit/pembiayaan modal kerja dan/atau
-                    investasi kepada debitur individu/perseorangan, badan usaha dan/atau kelompok usaha
-                    yang produktif dan layak namun belum memiliki agunan tambahan atau agunan tambahan
-                    belum cukup.
+                    Data dan informasi yang saya berikan dalam pengajuan ini adalah sesuai keadaan yang sebenar-benarnya.
                   </p>
                 </section>
 
                 <section>
-                  <h4 className="font-semibold mb-2">2. Persyaratan Pembiayaan</h4>
-                  <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                    <li>Memiliki usaha yang layak (feasible)</li>
-                    <li>Telah menjalankan usaha secara aktif minimal 6 bulan</li>
-                    <li>Tidak sedang menerima kredit dari perbankan</li>
-                    <li>Melengkapi dokumen persyaratan yang diminta</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h4 className="font-semibold mb-2">3. Kewajiban Debitur</h4>
-                  <ul className="list-disc list-inside text-muted-foreground space-y-1">
-                    <li>Memberikan data yang benar dan dapat dipertanggungjawabkan</li>
-                    <li>Menggunakan dana sesuai dengan tujuan pembiayaan</li>
-                    <li>Membayar angsuran sesuai jadwal yang disepakati</li>
-                    <li>Melaporkan perkembangan usaha kepada bank</li>
-                  </ul>
-                </section>
-
-                <section>
-                  <h4 className="font-semibold mb-2">4. Kebijakan Privasi</h4>
-                  <p className="text-muted-foreground">
-                    Data pribadi Anda akan dijaga kerahasiaannya dan hanya digunakan untuk keperluan
-                    proses persetujuan kredit sesuai dengan peraturan perundang-undangan yang berlaku.
+                  <h4 className="font-semibold mb-2">2. Kewenangan PT. Bank Rakyat Indonesia (Persero), Tbk.</h4>
+                  <p className="text-muted-foreground mb-2">
+                    Saya menyetujui bahwa PT. Bank Rakyat Indonesia (Persero), Tbk, selanjutnya disebut Bank, berwenang untuk:
                   </p>
+                  <ol className="list-[lower-alpha] list-inside text-muted-foreground space-y-2 ml-4">
+                    <li>Memeriksa kebenaran data yang saya sampaikan dalam pengajuan ini.</li>
+                    <li>Mencari dan memperoleh keterangan dan referensi dari sumber manapun dengan cara yang dianggap sah oleh Bank.</li>
+                    <li>Menyetujui atau menolak pengajuan pinjaman saya berdasarkan analisa Bank.</li>
+                    <li>Tidak mengembalikan seluruh dokumen yang telah saya serahkan kepada Bank.</li>
+                    <li>Memberikan secara terbatas dan/atau tidak terbatas data yang telah saya sampaikan dalam pengajuan ini kepada pihak ketiga dalam rangka kepentingan pemrosesan pengajuan pinjaman.</li>
+                  </ol>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold mb-2">3. Kewajiban Bank</h4>
+                  <p className="text-muted-foreground">
+                    Saya memahami dan mengerti bahwa Bank tidak berkewajiban untuk memberikan fasilitas kredit kepada saya hingga saya memenuhi semua persyaratan yang berlaku pada Bank dan telah menandatangani dokumen yang diperlukan Bank dalam pemberian kredit.
+                  </p>
+                </section>
+
+                <section>
+                  <h4 className="font-semibold mb-2">4. Tanggung Jawab Pemohon</h4>
+                  <p className="text-muted-foreground">
+                    Apabila ternyata data dan informasi, serta pernyataan yang saya berikan/buat tidak sesuai dengan keadaan yang sebenarnya, maka segala risiko dan konsekuensi yang diakibatkannya menjadi sepenuhnya tanggung jawab saya.
+                  </p>
+                </section>
+
+                <section className="mt-6 p-4 bg-warning/5 rounded-lg border border-warning/20">
+                  <h4 className="font-semibold mb-2 text-warning">Catatan Penting</h4>
+                  <ul className="list-disc list-inside text-muted-foreground space-y-1">
+                    <li>Pembiayaan KUR adalah kredit/pembiayaan modal kerja dan/atau investasi untuk UMKM</li>
+                    <li>Pastikan semua data yang diisi adalah benar dan akurat</li>
+                    <li>Proses persetujuan memerlukan waktu 3-5 hari kerja</li>
+                    <li>Bank berhak menolak pengajuan tanpa memberikan alasan tertentu</li>
+                  </ul>
                 </section>
               </div>
             </div>
