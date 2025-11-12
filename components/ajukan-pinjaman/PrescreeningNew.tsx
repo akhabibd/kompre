@@ -9,7 +9,7 @@ interface PrescreeningNewProps {
   onBack: () => void;
 }
 
-// Mock data LinKUR
+// Mock data LinkUMKM
 const mockLinKURData: ProfilNasabah = {
   useLinKURData: true,
   namaLengkap: 'Budi Santoso',
@@ -73,19 +73,35 @@ export default function PrescreeningNew({ data, onNext, onBack }: PrescreeningNe
     }
   }, [formData.profilPengajuan.jumlahPengajuan, formData.profilPengajuan.tenor]);
 
+  // Helper function to format number with thousand separators
+  const formatNumberWithDots = (value: string) => {
+    // Remove all non-digit characters
+    const numericValue = value.replace(/\D/g, '');
+    // Format with thousand separators (dots)
+    return numericValue.replace(/\B(?=(\d{3})+(?!\d))/g, '.');
+  };
+
+  // Helper function to get numeric value without dots
+  const getNumericValue = (value: string) => {
+    return value.replace(/\./g, '');
+  };
+
   const handleProfilPengajuanChange = (field: keyof ProfilPengajuan, value: string) => {
+    // For jumlahPengajuan, store the numeric value without dots
+    const numericValue = field === 'jumlahPengajuan' ? getNumericValue(value) : value;
+
     setFormData({
       ...formData,
       profilPengajuan: {
         ...formData.profilPengajuan,
-        [field]: value,
+        [field]: numericValue,
       },
     });
   };
 
   const handleProfilNasabahChange = (field: keyof ProfilNasabah, value: string | boolean) => {
     if (field === 'useLinKURData' && value === true) {
-      // Auto-fill with LinKUR data
+      // Auto-fill with LinkUMKM data
       setFormData({
         ...formData,
         profilNasabah: mockLinKURData,
@@ -182,12 +198,12 @@ export default function PrescreeningNew({ data, onNext, onBack }: PrescreeningNe
                     Jumlah Pengajuan (Rp)
                   </label>
                   <input
-                    type="number"
-                    value={formData.profilPengajuan.jumlahPengajuan}
+                    type="text"
+                    value={formatNumberWithDots(formData.profilPengajuan.jumlahPengajuan)}
                     onChange={(e) =>
                       handleProfilPengajuanChange('jumlahPengajuan', e.target.value)
                     }
-                    placeholder="Contoh: 50000000"
+                    placeholder="Contoh: 50.000.000"
                     className="w-full px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent outline-none"
                   />
                   <p className="mt-1 text-xs text-error font-medium">* Max pinjaman KUR 100 juta</p>
@@ -281,7 +297,7 @@ export default function PrescreeningNew({ data, onNext, onBack }: PrescreeningNe
                     )}
                   </div>
                   <span className="text-sm font-medium text-foreground">
-                    Gunakan data dari LinKUR
+                    Gunakan data dari LinkUMKM
                   </span>
                 </label>
 

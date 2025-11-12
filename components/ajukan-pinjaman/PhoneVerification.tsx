@@ -12,16 +12,25 @@ export default function PhoneVerification({ data, onNext }: PhoneVerificationPro
   const [formData, setFormData] = useState<PhoneVerificationType>(data);
   const [otpSent, setOtpSent] = useState(false);
 
+  const handleDemoFill = () => {
+    setFormData({
+      phoneNumber: '08123456789',
+      verificationCode: '123456',
+      isVerified: true,
+      acceptedTerms: true,
+    });
+    setOtpSent(true);
+    alert('Demo: Nomor HP otomatis terverifikasi!');
+  };
+
   const handleSendOTP = () => {
     if (formData.phoneNumber.length >= 10) {
       setOtpSent(true);
-      // Simulate sending OTP
       alert('Kode verifikasi telah dikirim ke nomor ' + formData.phoneNumber);
     }
   };
 
   const handleVerify = () => {
-    // Simulate verification
     if (formData.verificationCode === '1234' || formData.verificationCode === '123456') {
       setFormData({ ...formData, isVerified: true });
       alert('Nomor HP berhasil diverifikasi!');
@@ -32,43 +41,33 @@ export default function PhoneVerification({ data, onNext }: PhoneVerificationPro
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault();
-    if (formData.isVerified && formData.acceptedTerms) {
+    if (formData.isVerified) {
       onNext(formData);
     }
   };
 
-  const isValid = formData.isVerified && formData.acceptedTerms;
+  const isValid = formData.isVerified;
 
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Demo Button */}
+      <div className="mb-4 flex justify-end">
+        <button
+          type="button"
+          onClick={handleDemoFill}
+          className="px-4 py-2 bg-success hover:bg-success/90 text-white rounded-lg text-sm font-medium transition-colors"
+        >
+          Demo Auto-Fill
+        </button>
+      </div>
+
       <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
         <h2 className="text-3xl font-bold text-foreground mb-2">
-          Webform Pengajuan KUR
+          Verifikasi Nomor HP
         </h2>
         <p className="text-secondary mb-8">
-          Sebelum mengisi formulir pengajuan Kredit Usaha Rakyat, lakukan verifikasi nomor handphone terlebih dahulu
+          Verifikasi nomor handphone Anda untuk melanjutkan pengajuan Kredit Usaha Rakyat
         </p>
-
-        {/* Syarat Pengajuan */}
-        <div className="bg-muted rounded-lg p-6 mb-8">
-          <h3 className="text-lg font-semibold text-foreground mb-4">Syarat Pengajuan:</h3>
-          <ol className="list-decimal list-inside space-y-2 text-foreground">
-            <li>Permohonan</li>
-            <li>Peruntukan: Modal Kerja atau Rencana Pengembangan Usaha</li>
-            <li>Lama usaha: minimal 6 bulan</li>
-            <li>
-              Siapkan dokumen:
-              <ul className="list-disc list-inside ml-6 mt-2 space-y-1">
-                <li>KTP-el</li>
-                <li>Kartu Keluarga (KK)</li>
-                <li>NPWP</li>
-              </ul>
-            </li>
-            <li className="text-warning font-medium">
-              Setiap penerimaan SMS akan dikenakan biaya. Pastikan saldo dalam keadaan cukup
-            </li>
-          </ol>
-        </div>
 
         <form onSubmit={handleSubmit} className="space-y-6">
           {/* Phone Number Input */}
@@ -150,40 +149,6 @@ export default function PhoneVerification({ data, onNext }: PhoneVerificationPro
                 <p className="text-sm text-muted-foreground">{formData.phoneNumber}</p>
               </div>
             </div>
-          )}
-
-          {/* Terms Acceptance */}
-          {formData.isVerified && (
-            <label className="flex items-start space-x-3 cursor-pointer">
-              <div className="relative flex items-center justify-center mt-1">
-                <input
-                  type="checkbox"
-                  checked={formData.acceptedTerms}
-                  onChange={(e) =>
-                    setFormData({ ...formData, acceptedTerms: e.target.checked })
-                  }
-                  className="w-5 h-5 border-2 border-input rounded appearance-none checked:bg-primary checked:border-primary cursor-pointer transition-colors"
-                />
-                {formData.acceptedTerms && (
-                  <svg
-                    className="absolute w-3 h-3 text-primary-foreground pointer-events-none"
-                    fill="none"
-                    stroke="currentColor"
-                    viewBox="0 0 24 24"
-                  >
-                    <path
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth={3}
-                      d="M5 13l4 4L19 7"
-                    />
-                  </svg>
-                )}
-              </div>
-              <span className="text-sm text-foreground">
-                Saya telah membaca dan menyetujui syarat pengajuan KUR dan bersedia menerima SMS notifikasi
-              </span>
-            </label>
           )}
 
           <div className="pt-4">

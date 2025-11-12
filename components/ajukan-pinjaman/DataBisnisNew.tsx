@@ -9,7 +9,7 @@ interface DataBisnisNewProps {
   onBack: () => void;
 }
 
-// Mock data LinKUR untuk bisnis
+// Mock data LinkUMKM untuk bisnis
 const mockLinKURBisnisData: DataBisnis = {
   useLinKURData: true,
   namaUsaha: 'Toko Berkah Jaya',
@@ -32,7 +32,7 @@ export default function DataBisnisNew({ data, onNext, onBack }: DataBisnisNewPro
 
   const handleChange = (field: keyof DataBisnis, value: string | boolean) => {
     if (field === 'useLinKURData' && value === true) {
-      // Auto-fill with LinKUR business data
+      // Auto-fill with LinkUMKM business data
       setFormData(mockLinKURBisnisData);
     } else {
       setFormData({
@@ -112,7 +112,7 @@ export default function DataBisnisNew({ data, onNext, onBack }: DataBisnisNewPro
             </div>
             <div>
               <span className="text-sm font-semibold text-foreground block">
-                Gunakan data dari LinKUR
+                Gunakan data dari LinkUMKM
               </span>
               <span className="text-xs text-muted-foreground">
                 Otomatis isi form dengan data bisnis yang sudah terdaftar
