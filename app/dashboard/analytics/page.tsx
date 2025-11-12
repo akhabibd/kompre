@@ -233,92 +233,170 @@ export default function AnalyticsPage() {
           </div>
         </div>
 
-        {/* Charts Row 1 */}
-        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
-          {/* Status Distribution */}
-          <div className="bg-card rounded-lg shadow-lg p-6 border border-border">
-            <h3 className="text-lg font-semibold text-foreground mb-6">Status Pengajuan</h3>
-            <div className="space-y-3">
-              {statusDistribution.map((item) => (
-                <div key={item.status}>
-                  <div className="flex items-center justify-between mb-1">
-                    <span className="text-sm font-medium text-foreground capitalize">
-                      {item.status}
-                    </span>
-                    <span className="text-sm text-muted-foreground">
-                      {item.count} ({item.percentage}%)
-                    </span>
-                  </div>
-                  <div className="w-full h-3 bg-muted/30 rounded-full overflow-hidden">
-                    <div
-                      className="h-full rounded-full transition-all duration-500"
-                      style={{
-                        width: `${item.percentage}%`,
-                        backgroundColor: statusColors[item.status] || '#6b7280',
-                      }}
-                    />
-                  </div>
+        {/* Status Distribution */}
+        <div className="bg-card rounded-lg shadow-lg p-6 border border-border">
+          <h3 className="text-lg font-semibold text-foreground mb-6">Distribusi Status Pengajuan</h3>
+          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+            {statusDistribution.map((item) => (
+              <div key={item.status} className="space-y-2">
+                <div className="flex items-center justify-between">
+                  <span className="text-sm font-medium text-foreground capitalize">
+                    {item.status}
+                  </span>
+                  <span className="text-sm text-muted-foreground">
+                    {item.percentage}%
+                  </span>
                 </div>
-              ))}
-            </div>
+                <div className="w-full h-3 bg-muted/30 rounded-full overflow-hidden">
+                  <div
+                    className="h-full rounded-full transition-all duration-500"
+                    style={{
+                      width: `${item.percentage}%`,
+                      backgroundColor: statusColors[item.status] || '#6b7280',
+                    }}
+                  />
+                </div>
+                <div className="text-xs text-muted-foreground">{item.count} pengajuan</div>
+              </div>
+            ))}
           </div>
-
-          {/* Loan Type Distribution */}
-          <div className="bg-card rounded-lg shadow-lg p-6 border border-border">
-            <h3 className="text-lg font-semibold text-foreground mb-6">Jenis Pinjaman</h3>
-            <div className="space-y-4">
-              {loanTypeDistribution.map((item, idx) => {
-                const total = loanTypeDistribution.reduce((sum, d) => sum + d.count, 0);
-                const percentage = ((item.count / total) * 100).toFixed(1);
-                const colors = ['#3D63DD', '#10b981', '#f59e0b'];
-
-                return (
-                  <div key={item.type} className="flex items-center gap-4">
-                    <div
-                      className="w-16 h-16 rounded-lg flex items-center justify-center text-white font-bold text-xl"
-                      style={{ backgroundColor: colors[idx] || '#6b7280' }}
-                    >
-                      {item.count}
-                    </div>
-                    <div className="flex-1">
-                      <div className="text-sm font-semibold text-foreground">{item.type}</div>
-                      <div className="text-xs text-muted-foreground">
-                        {percentage}% dari total pengajuan
-                      </div>
-                    </div>
-                  </div>
-                );
-              })}
-            </div>
+          <div className="mt-6 p-4 bg-primary/5 rounded-lg border border-primary/20">
+            <p className="text-sm text-foreground">
+              <strong>Jenis Pinjaman:</strong> Semua pengajuan adalah <strong>KUR Mikro</strong> - Kredit Usaha Rakyat untuk UMKM dengan plafon hingga Rp 100 juta.
+            </p>
           </div>
         </div>
 
-        {/* Daily Trend Chart */}
+        {/* Daily Trend Chart - LINE CHART */}
         <div className="bg-card rounded-lg shadow-lg p-6 border border-border">
           <h3 className="text-lg font-semibold text-foreground mb-6">
-            Trend Pengajuan (14 Hari Terakhir)
+            Trend Pengajuan (14 Hari Terakhir) - Line Chart
           </h3>
-          <div className="flex items-end justify-between h-64 gap-2">
-            {dailyTrend.map((day) => {
-              const height = (day.count / maxDailyCount) * 100;
+          <div className="relative h-80">
+            {(() => {
+              const chartHeight = 280;
+              const chartWidth = 100; // percentage
+              const padding = { top: 20, bottom: 40, left: 50, right: 20 };
+
+              // Dynamic Y-axis calculation
+              const counts = dailyTrend.map(d => d.count);
+              const minCount = Math.min(...counts);
+              const maxCount = Math.max(...counts);
+              const range = maxCount - minCount;
+              const yMin = Math.max(0, minCount - range * 0.2); // 20% padding below
+              const yMax = maxCount + range * 0.2; // 20% padding above
+              const yRange = yMax - yMin || 1;
+
+              // Calculate points for line
+              const points = dailyTrend.map((day, idx) => {
+                const x = (idx / (dailyTrend.length - 1)) * 100;
+                const y = ((yMax - day.count) / yRange) * 100;
+                return { x, y, count: day.count, date: day.date };
+              });
+
+              // Create path string
+              const pathString = points.map((p, i) =>
+                `${i === 0 ? 'M' : 'L'} ${p.x} ${p.y}`
+              ).join(' ');
+
+              // Y-axis labels (5 levels)
+              const yLabels = Array.from({ length: 5 }, (_, i) => {
+                const value = yMax - (yRange * i / 4);
+                return Math.round(value);
+              });
+
               return (
-                <div key={day.date} className="flex-1 flex flex-col items-center gap-2">
-                  <div className="relative flex-1 w-full flex items-end">
-                    <div
-                      className="w-full bg-primary hover:bg-primary-600 rounded-t-lg transition-all cursor-pointer group relative"
-                      style={{ height: `${height}%`, minHeight: day.count > 0 ? '8px' : '0' }}
-                    >
-                      <div className="absolute -top-8 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-foreground text-background text-xs py-1 px-2 rounded whitespace-nowrap">
-                        {day.count} pengajuan
-                      </div>
+                <>
+                  {/* Y-axis labels */}
+                  <div className="absolute left-0 top-0 bottom-10 w-12 flex flex-col justify-between text-xs text-muted-foreground">
+                    {yLabels.map((label, i) => (
+                      <div key={i} className="text-right pr-2">{label}</div>
+                    ))}
+                  </div>
+
+                  {/* Chart area */}
+                  <div className="absolute left-12 right-0 top-0 bottom-10 border-l border-b border-border">
+                    <svg className="w-full h-full" viewBox="0 0 100 100" preserveAspectRatio="none">
+                      {/* Horizontal grid lines */}
+                      {[0, 25, 50, 75, 100].map(y => (
+                        <line
+                          key={y}
+                          x1="0"
+                          y1={y}
+                          x2="100"
+                          y2={y}
+                          stroke="currentColor"
+                          strokeWidth="0.2"
+                          className="text-border"
+                          opacity="0.3"
+                        />
+                      ))}
+
+                      {/* Line chart */}
+                      <polyline
+                        points={points.map(p => `${p.x},${p.y}`).join(' ')}
+                        fill="none"
+                        stroke="#3D63DD"
+                        strokeWidth="2"
+                        vectorEffect="non-scaling-stroke"
+                        strokeLinejoin="round"
+                        strokeLinecap="round"
+                      />
+
+                      {/* Area under line (optional gradient fill) */}
+                      <polygon
+                        points={`0,100 ${points.map(p => `${p.x},${p.y}`).join(' ')} 100,100`}
+                        fill="#3D63DD"
+                        opacity="0.1"
+                      />
+
+                      {/* Data points */}
+                      {points.map((p, i) => (
+                        <g key={i}>
+                          <circle
+                            cx={p.x}
+                            cy={p.y}
+                            r="1.5"
+                            fill="#3D63DD"
+                            vectorEffect="non-scaling-stroke"
+                            className="hover:r-2 transition-all cursor-pointer"
+                          />
+                          <title>{p.count} pengajuan - {p.date}</title>
+                        </g>
+                      ))}
+                    </svg>
+
+                    {/* Hover points for better UX */}
+                    <div className="absolute inset-0 flex items-stretch">
+                      {points.map((p, i) => (
+                        <div
+                          key={i}
+                          className="flex-1 hover:bg-primary/5 cursor-pointer group relative"
+                          title={`${p.count} pengajuan`}
+                        >
+                          <div className="absolute -top-10 left-1/2 -translate-x-1/2 opacity-0 group-hover:opacity-100 transition-opacity bg-foreground text-background text-xs py-1 px-2 rounded whitespace-nowrap z-10">
+                            {p.count} pengajuan
+                          </div>
+                        </div>
+                      ))}
                     </div>
                   </div>
-                  <div className="text-xs text-muted-foreground -rotate-45 origin-top-left mt-4">
-                    {day.date}
+
+                  {/* X-axis labels */}
+                  <div className="absolute left-12 right-0 bottom-0 h-10 flex items-center justify-between">
+                    {dailyTrend.map((day, i) => (
+                      <div
+                        key={i}
+                        className="text-xs text-muted-foreground -rotate-45 origin-top-left"
+                        style={{ transform: 'rotate(-45deg) translateY(8px)' }}
+                      >
+                        {day.date}
+                      </div>
+                    ))}
                   </div>
-                </div>
+                </>
               );
-            })}
+            })()}
           </div>
         </div>
 

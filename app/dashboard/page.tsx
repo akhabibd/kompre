@@ -40,6 +40,7 @@ export default function DashboardPage() {
   // Filters
   const [search, setSearch] = useState('');
   const [cityFilter, setCityFilter] = useState('');
+  const [regionalFilter, setRegionalFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [showOnProcess, setShowOnProcess] = useState(true);
   const [showOverSLA, setShowOverSLA] = useState(false);
@@ -60,8 +61,9 @@ export default function DashboardPage() {
     return { total, onProcess, overSLA, approved, rejected, totalPlafon, approvedPlafon };
   }, [allData]);
 
-  // Get unique cities and statuses
+  // Get unique cities, regionals, and statuses
   const cities = useMemo(() => Array.from(new Set(allData.map((d) => d.city))).sort(), [allData]);
+  const regionals = useMemo(() => Array.from(new Set(allData.map((d) => d.regional))).sort(), [allData]);
   const statuses = useMemo(
     () => [
       { value: 'prescreening', label: 'Prescreening' },
@@ -80,6 +82,9 @@ export default function DashboardPage() {
     return allData.filter((app) => {
       // City filter
       if (cityFilter && app.city !== cityFilter) return false;
+
+      // Regional filter
+      if (regionalFilter && app.regional !== regionalFilter) return false;
 
       // Status filter
       if (statusFilter && app.currentStep !== statusFilter) return false;
@@ -107,7 +112,7 @@ export default function DashboardPage() {
 
       return false;
     });
-  }, [allData, cityFilter, statusFilter, search, showOnProcess, showOverSLA]);
+  }, [allData, cityFilter, regionalFilter, statusFilter, search, showOnProcess, showOverSLA]);
 
   // Download CSV
   const downloadCSV = () => {
@@ -164,13 +169,29 @@ export default function DashboardPage() {
       <header className="bg-card border-b border-border sticky top-0 z-30 shadow-sm">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
           <div className="flex items-center justify-between">
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <h1 className="text-2xl font-bold text-primary">LinKUR Dashboard</h1>
-              <span className="px-3 py-1 bg-primary/10 text-primary text-sm font-medium rounded-full">
+              <span className="px-3 py-1 bg-primary/10 text-primary text-xs font-medium rounded-full">
                 {currentRole.toUpperCase()}
               </span>
+              <div className="hidden lg:flex items-center gap-2 text-sm text-muted-foreground ml-2 pl-3 border-l border-border">
+                <svg
+                  className="w-4 h-4 text-primary"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
+                  />
+                </svg>
+                <span className="text-foreground font-medium">{currentUser}</span>
+              </div>
             </div>
-            <div className="flex items-center gap-4">
+            <div className="flex items-center gap-3">
               <a
                 href="/dashboard/analytics"
                 className="px-4 py-2 bg-primary/10 hover:bg-primary/20 text-primary rounded-lg font-medium transition-colors text-sm flex items-center gap-2"
@@ -188,29 +209,13 @@ export default function DashboardPage() {
                     d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
                   />
                 </svg>
-                Analytics
+                <span className="hidden sm:inline">Analytics</span>
               </a>
-              <div className="hidden md:flex items-center gap-2 text-sm text-muted-foreground">
-                <svg
-                  className="w-5 h-5 text-primary"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"
-                  />
-                </svg>
-                <span className="text-foreground font-medium">{currentUser}</span>
-              </div>
               <a
                 href="/"
-                className="text-sm text-secondary hover:text-foreground transition-colors"
+                className="text-sm text-secondary hover:text-primary font-medium transition-colors"
               >
-                Kembali ke Beranda
+                Beranda
               </a>
             </div>
           </div>
@@ -319,6 +324,18 @@ export default function DashboardPage() {
                   {cities.map((city) => (
                     <option key={city} value={city}>
                       {city}
+                    </option>
+                  ))}
+                </select>
+                <select
+                  value={regionalFilter}
+                  onChange={(e) => setRegionalFilter(e.target.value)}
+                  className="px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent outline-none"
+                >
+                  <option value="">Semua Regional</option>
+                  {regionals.map((regional) => (
+                    <option key={regional} value={regional}>
+                      {regional}
                     </option>
                   ))}
                 </select>

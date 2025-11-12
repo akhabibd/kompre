@@ -75,7 +75,7 @@ const PERUNTUKAN = [
   'Pembelian Mesin / Kendaraan Operasional'
 ];
 
-const LOAN_TYPES = ['KUR Mikro', 'KUR Kecil', 'Modal Kerja'];
+const LOAN_TYPES = ['KUR Mikro'];
 
 const STATUSES: ApplicationStatus[] = [
   'prescreening',
