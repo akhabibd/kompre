@@ -90,3 +90,38 @@ export interface UserProfile {
   email: string;
   avatar?: string;
 }
+
+// Dashboard types
+export type DashboardRole = 'admin' | 'analyst' | 'staff';
+
+export type ApplicationStatus =
+  | 'prescreening'
+  | 'submitted'
+  | 'in_review'
+  | 'kunjungan'
+  | 'approved'
+  | 'rejected'
+  | 'pencairan';
+
+export interface DashboardApplication {
+  id: string;
+  cif: string;
+  borrower: string;
+  nomorKTP: string;
+  nomorHP: string;
+  email: string;
+  city: string;
+  regional: string;
+  plafon: number;
+  loanType: string;
+  submittedAt: string; // ISO date string
+  currentStep: ApplicationStatus;
+  jenisUsaha: string;
+  namaUsaha: string;
+  // Full application data
+  fullData: LoanApplicationData;
+  // Notes from staff
+  notes: string[];
+  // Assignment
+  assignedTo?: string;
+}
