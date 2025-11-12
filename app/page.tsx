@@ -29,7 +29,7 @@ export default function Home() {
             Wujudkan Impian Usaha Anda
           </h1>
           <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto">
-            Platform pengajuan Kredit Usaha Rakyat (KUR) melalui LinKUR dan BRI.
+            Platform pengajuan Kredit Usaha Rakyat (KUR) Mikro melalui LinKUR dan BRI.
             Dapatkan modal usaha dengan proses yang mudah dan cepat.
           </p>
           <Link
@@ -109,57 +109,6 @@ export default function Home() {
             <h3 className="text-lg font-semibold text-foreground mb-2">Aman & Terpercaya</h3>
             <p className="text-secondary">
               Bekerja sama dengan BRI untuk keamanan dan kepercayaan Anda
-            </p>
-          </div>
-        </div>
-
-        {/* Internal Staff Section */}
-        <div className="mt-20 bg-gray-50 rounded-2xl shadow-lg p-8 border-2 border-dashed border-gray-300">
-          <div className="text-center max-w-2xl mx-auto">
-            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
-              <svg
-                className="w-8 h-8 text-primary"
-                fill="none"
-                stroke="currentColor"
-                viewBox="0 0 24 24"
-              >
-                <path
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth={2}
-                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
-                />
-              </svg>
-            </div>
-            <h3 className="text-2xl font-bold text-foreground mb-2">
-              Akses Dashboard Internal
-            </h3>
-            <p className="text-secondary mb-6">
-              Untuk staff BRI & LinKUR: Monitoring pengajuan, analytics, dan laporan
-            </p>
-            <div className="flex justify-center">
-              <Link
-                href="/login"
-                className="px-8 py-3 bg-primary hover:bg-primary-600 text-white rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2 text-lg"
-              >
-                <svg
-                  className="w-5 h-5"
-                  fill="none"
-                  stroke="currentColor"
-                  viewBox="0 0 24 24"
-                >
-                  <path
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth={2}
-                    d="M11 16l-4-4m0 0l4-4m-4 4h14m-5 4v1a3 3 0 01-3 3H6a3 3 0 01-3-3V7a3 3 0 013-3h7a3 3 0 013 3v1"
-                  />
-                </svg>
-                Login sebagai Admin/Staff
-              </Link>
-            </div>
-            <p className="text-xs text-muted-foreground mt-4">
-              Akses Dashboard & Analytics untuk internal monitoring
             </p>
           </div>
         </div>
