@@ -19,6 +19,7 @@ import PrescreeningNew from '@/components/ajukan-pinjaman/PrescreeningNew';
 import PrescreeningResultNew from '@/components/ajukan-pinjaman/PrescreeningResultNew';
 import DataBisnisNew from '@/components/ajukan-pinjaman/DataBisnisNew';
 import Sidebar from '@/components/ajukan-pinjaman/Sidebar';
+import ReviewSubmit from '@/components/ajukan-pinjaman/ReviewSubmit';
 
 export default function AjukanPinjamanPage() {
   const router = useRouter();
@@ -111,6 +112,10 @@ export default function AjukanPinjamanPage() {
 
   const handleUploadDocumentsNext = (data: UploadDocumentsType) => {
     setFormData({ ...formData, uploadDocuments: data });
+    setCurrentStep('review');
+  };
+
+  const handleFinalSubmit = () => {
     // In production, this would send data to API then redirect
     console.log('Submitting application:', formData);
     alert('Pengajuan pinjaman berhasil disubmit!');
@@ -210,6 +215,14 @@ export default function AjukanPinjamanPage() {
                 <DataBisnisNew
                   data={formData.dataBisnis}
                   onNext={handleDataBisnisNext}
+                  onBack={handleBack}
+                />
+              )}
+
+              {currentStep === 'review' && (
+                <ReviewSubmit
+                  data={formData}
+                  onSubmit={handleFinalSubmit}
                   onBack={handleBack}
                 />
               )}

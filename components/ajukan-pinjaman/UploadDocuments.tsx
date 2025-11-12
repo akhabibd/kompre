@@ -181,7 +181,7 @@ export default function UploadDocuments({ data, onNext, onBack }: UploadDocument
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
-              Submit Pengajuan
+              Lanjut ke Review
             </button>
           </div>
         </form>
