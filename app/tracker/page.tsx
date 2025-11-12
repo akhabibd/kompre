@@ -1,9 +1,17 @@
 'use client';
 
 import { useState } from 'react';
-import { TrackerStatus } from '@/types/loan-application';
+import { TrackerStatus, UserProfile } from '@/types/loan-application';
+import Sidebar from '@/components/ajukan-pinjaman/Sidebar';
 
 export default function TrackerPage() {
+  // Mock user profile - in production this would come from session/API
+  const userProfile: UserProfile = {
+    name: 'Budi Santoso',
+    phone: '08123456789',
+    email: 'budi.santoso@email.com',
+  };
+
   // Mock data - in production this would come from API/database
   const [trackerData] = useState<TrackerStatus[]>([
     {
@@ -60,13 +68,37 @@ export default function TrackerPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-3xl mx-auto">
-        <div className="bg-white rounded-lg shadow-lg p-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">Status Pengajuan</h1>
-          <p className="text-secondary mb-8">
-            Pantau perkembangan pengajuan pembiayaan Anda
-          </p>
+    <div className="min-h-screen bg-muted/30">
+      {/* Header */}
+      <div className="bg-card border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-primary">LinKUR</h1>
+            <a
+              href="/"
+              className="text-sm text-secondary hover:text-foreground transition-colors"
+            >
+              Kembali ke Beranda
+            </a>
+          </div>
+        </div>
+      </div>
+
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar - Left */}
+          <div className="lg:col-span-1">
+            <Sidebar user={userProfile} />
+          </div>
+
+          {/* Main Tracker - Right */}
+          <div className="lg:col-span-3">
+            <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
+              <h2 className="text-3xl font-bold text-foreground mb-2">Status Pengajuan</h2>
+              <p className="text-secondary mb-8">
+                Pantau perkembangan pengajuan pembiayaan Anda
+              </p>
 
           <div className="relative">
             {/* Vertical Line */}
@@ -151,26 +183,22 @@ export default function TrackerPage() {
             </div>
           </div>
 
-          <div className="mt-8 p-4 bg-primary/10 rounded-lg">
-            <p className="text-sm text-foreground">
-              <strong>Catatan:</strong> Proses pengajuan memerlukan waktu 3-5 hari kerja.
-              Anda akan dihubungi oleh tenaga pemasar kami untuk proses selanjutnya.
-            </p>
-          </div>
+              <div className="mt-8 p-4 bg-primary/10 rounded-lg">
+                <p className="text-sm text-foreground">
+                  <strong>Catatan:</strong> Proses pengajuan memerlukan waktu 3-5 hari kerja.
+                  Anda akan dihubungi oleh tenaga pemasar kami untuk proses selanjutnya.
+                </p>
+              </div>
 
-          <div className="mt-6 flex gap-4">
-            <button
-              onClick={() => (window.location.href = '/')}
-              className="flex-1 py-3 px-6 border border-gray-300 rounded-lg font-medium text-foreground hover:bg-gray-50 transition-colors"
-            >
-              Kembali ke Beranda
-            </button>
-            <button
-              onClick={() => window.location.reload()}
-              className="flex-1 py-3 px-6 bg-primary hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
-            >
-              Refresh Status
-            </button>
+              <div className="mt-6">
+                <button
+                  onClick={() => window.location.reload()}
+                  className="w-full py-3 px-6 bg-primary hover:bg-primary-600 text-primary-foreground rounded-lg font-medium transition-colors"
+                >
+                  Refresh Status
+                </button>
+              </div>
+            </div>
           </div>
         </div>
       </div>
