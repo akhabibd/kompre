@@ -1,40 +1,55 @@
-export interface SyaratUtama {
-  memberLinkUMKM: boolean;
-  memilikiRekeningBRI: boolean;
+export interface PhoneVerification {
+  phoneNumber: string;
+  verificationCode: string;
+  isVerified: boolean;
+  acceptedTerms: boolean;
 }
 
-export interface PrescreeningData {
-  besaranPinjaman: string;
-  jangkaWaktu: string;
-  tujuanPenggunaan: string;
+export interface UploadDocuments {
+  fileKTP: File | null;
+  fileSelfieKTP: File | null;
+  fileKK: File | null;
+  fileNPWP: File | null;
+  fileSKTU: File | null;
+}
+
+export interface ProfilPengajuan {
+  jumlahPengajuan: string;
+  peruntukan: string;
+  tenor: string;
+  estimasiCicilan: string;
+}
+
+export interface ProfilNasabah {
+  useLinKURData: boolean;
   namaLengkap: string;
   nomorKTP: string;
-  fileKTP: File | null;
   nomorKK: string;
-  fileKK: File | null;
+  nomorNPWP: string;
   jenisKelamin: string;
   tempatLahir: string;
   tanggalLahir: string;
   alamatKTP: string;
   kodePos: string;
-  menyetujuiSyarat: boolean;
+  nomorHP: string;
+  email: string;
+}
+
+export interface PrescreeningData {
+  profilPengajuan: ProfilPengajuan;
+  profilNasabah: ProfilNasabah;
 }
 
 export interface PrescreeningResult {
   status: 'submitted' | 'checking' | 'done';
-  result: 'PUMK' | 'KUR' | 'rejected' | null;
-}
-
-export interface DataLinkUMKM {
-  confirmed: boolean;
-  syncData: boolean;
+  result: 'KUR' | 'rejected' | null;
 }
 
 export interface DataBisnis {
+  useLinKURData: boolean;
   namaUsaha: string;
   jenisUsaha: string;
   legalitas: string;
-  fileLegalitas: File | null;
   lamaUsaha: string;
   omsetPerbulan: string;
   alamatUsaha: string;
@@ -43,23 +58,23 @@ export interface DataBisnis {
   desa: string;
   kodePosUsaha: string;
   jenisProduk: string;
-  fotoProduk: File | null;
-  menyetujuiSyarat: boolean;
+  deskripsiUsaha: string;
+  jumlahKaryawan: string;
 }
 
 export interface LoanApplicationData {
-  syaratUtama: SyaratUtama;
+  phoneVerification: PhoneVerification;
+  uploadDocuments: UploadDocuments;
   prescreening: PrescreeningData;
   prescreeningResult: PrescreeningResult;
-  dataLinkUMKM: DataLinkUMKM;
   dataBisnis: DataBisnis;
 }
 
 export type ApplicationStep =
-  | 'syarat-utama'
+  | 'phone-verification'
+  | 'upload-documents'
   | 'prescreening'
   | 'prescreening-result'
-  | 'data-linkumkm'
   | 'data-bisnis'
   | 'review';
 
@@ -67,4 +82,11 @@ export interface TrackerStatus {
   step: 'prescreening' | 'submitted' | 'in_review' | 'kunjungan' | 'approved' | 'rejected' | 'pencairan';
   date?: string;
   notes?: string;
+}
+
+export interface UserProfile {
+  name: string;
+  phone: string;
+  email: string;
+  avatar?: string;
 }

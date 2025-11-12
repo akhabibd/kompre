@@ -5,57 +5,77 @@ import { useRouter } from 'next/navigation';
 import {
   ApplicationStep,
   LoanApplicationData,
-  SyaratUtama as SyaratUtamaType,
+  PhoneVerification as PhoneVerificationType,
+  UploadDocuments as UploadDocumentsType,
   PrescreeningData,
   PrescreeningResult as PrescreeningResultType,
-  DataLinkUMKM as DataLinkUMKMType,
-  DataBisnis as DataBisnisType,
+  DataBisnis,
+  UserProfile,
 } from '@/types/loan-application';
-import ProgressIndicator from '@/components/ajukan-pinjaman/ProgressIndicator';
-import SyaratUtama from '@/components/ajukan-pinjaman/SyaratUtama';
-import Prescreening from '@/components/ajukan-pinjaman/Prescreening';
-import PrescreeningResult from '@/components/ajukan-pinjaman/PrescreeningResult';
-import DataLinkUMKM from '@/components/ajukan-pinjaman/DataLinkUMKM';
-import DataBisnis from '@/components/ajukan-pinjaman/DataBisnis';
-import Review from '@/components/ajukan-pinjaman/Review';
+import ProgressIndicatorNew from '@/components/ajukan-pinjaman/ProgressIndicatorNew';
+import PhoneVerification from '@/components/ajukan-pinjaman/PhoneVerification';
+import UploadDocuments from '@/components/ajukan-pinjaman/UploadDocuments';
+import PrescreeningNew from '@/components/ajukan-pinjaman/PrescreeningNew';
+import PrescreeningResultNew from '@/components/ajukan-pinjaman/PrescreeningResultNew';
+import DataBisnisNew from '@/components/ajukan-pinjaman/DataBisnisNew';
+import Sidebar from '@/components/ajukan-pinjaman/Sidebar';
 
 export default function AjukanPinjamanPage() {
   const router = useRouter();
-  const [currentStep, setCurrentStep] = useState<ApplicationStep>('syarat-utama');
+  const [currentStep, setCurrentStep] = useState<ApplicationStep>('phone-verification');
+
+  // Mock user profile
+  const userProfile: UserProfile = {
+    name: 'Budi Santoso',
+    phone: '08123456789',
+    email: 'budi.santoso@email.com',
+  };
+
   const [formData, setFormData] = useState<LoanApplicationData>({
-    syaratUtama: {
-      memberLinkUMKM: false,
-      memilikiRekeningBRI: false,
+    phoneVerification: {
+      phoneNumber: '',
+      verificationCode: '',
+      isVerified: false,
+      acceptedTerms: false,
+    },
+    uploadDocuments: {
+      fileKTP: null,
+      fileSelfieKTP: null,
+      fileKK: null,
+      fileNPWP: null,
+      fileSKTU: null,
     },
     prescreening: {
-      besaranPinjaman: '',
-      jangkaWaktu: '',
-      tujuanPenggunaan: '',
-      namaLengkap: '',
-      nomorKTP: '',
-      fileKTP: null,
-      nomorKK: '',
-      fileKK: null,
-      jenisKelamin: '',
-      tempatLahir: '',
-      tanggalLahir: '',
-      alamatKTP: '',
-      kodePos: '',
-      menyetujuiSyarat: false,
+      profilPengajuan: {
+        jumlahPengajuan: '',
+        peruntukan: '',
+        tenor: '',
+        estimasiCicilan: '0',
+      },
+      profilNasabah: {
+        useLinKURData: false,
+        namaLengkap: '',
+        nomorKTP: '',
+        nomorKK: '',
+        nomorNPWP: '',
+        jenisKelamin: '',
+        tempatLahir: '',
+        tanggalLahir: '',
+        alamatKTP: '',
+        kodePos: '',
+        nomorHP: '',
+        email: '',
+      },
     },
     prescreeningResult: {
       status: 'submitted',
       result: null,
     },
-    dataLinkUMKM: {
-      confirmed: false,
-      syncData: false,
-    },
     dataBisnis: {
+      useLinKURData: false,
       namaUsaha: '',
       jenisUsaha: '',
       legalitas: '',
-      fileLegalitas: null,
       lamaUsaha: '',
       omsetPerbulan: '',
       alamatUsaha: '',
@@ -64,13 +84,18 @@ export default function AjukanPinjamanPage() {
       desa: '',
       kodePosUsaha: '',
       jenisProduk: '',
-      fotoProduk: null,
-      menyetujuiSyarat: false,
+      deskripsiUsaha: '',
+      jumlahKaryawan: '',
     },
   });
 
-  const handleSyaratUtamaNext = (data: SyaratUtamaType) => {
-    setFormData({ ...formData, syaratUtama: data });
+  const handlePhoneVerificationNext = (data: PhoneVerificationType) => {
+    setFormData({ ...formData, phoneVerification: data });
+    setCurrentStep('upload-documents');
+  };
+
+  const handleUploadDocumentsNext = (data: UploadDocumentsType) => {
+    setFormData({ ...formData, uploadDocuments: data });
     setCurrentStep('prescreening');
   };
 
@@ -81,32 +106,20 @@ export default function AjukanPinjamanPage() {
 
   const handlePrescreeningResultNext = (result: PrescreeningResultType) => {
     setFormData({ ...formData, prescreeningResult: result });
-    setCurrentStep('data-linkumkm');
-  };
-
-  const handleDataLinkUMKMNext = (data: DataLinkUMKMType) => {
-    setFormData({ ...formData, dataLinkUMKM: data });
     setCurrentStep('data-bisnis');
   };
 
-  const handleDataBisnisNext = (data: DataBisnisType) => {
+  const handleDataBisnisNext = (data: DataBisnis) => {
     setFormData({ ...formData, dataBisnis: data });
-    setCurrentStep('review');
-  };
-
-  const handleSubmit = () => {
-    // In production, this would send data to API
-    console.log('Submitting application:', formData);
-    alert('Pengajuan pinjaman berhasil disubmit!');
     router.push('/tracker');
   };
 
   const handleBack = () => {
     const stepOrder: ApplicationStep[] = [
-      'syarat-utama',
+      'phone-verification',
+      'upload-documents',
       'prescreening',
       'prescreening-result',
-      'data-linkumkm',
       'data-bisnis',
       'review',
     ];
@@ -122,55 +135,83 @@ export default function AjukanPinjamanPage() {
   };
 
   return (
-    <div className="min-h-screen bg-gray-50 py-12 px-4 sm:px-6 lg:px-8">
-      <div className="max-w-4xl mx-auto">
-        <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-foreground mb-2">
-            Ajukan Pembiayaan UMKM
-          </h1>
-          <p className="text-secondary">
-            Lengkapi formulir berikut untuk mengajukan pembiayaan UMKM Anda
-          </p>
+    <div className="min-h-screen bg-muted/30">
+      {/* Header */}
+      <div className="bg-card border-b border-border">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+          <div className="flex items-center justify-between">
+            <h1 className="text-2xl font-bold text-primary">LinKUR</h1>
+            <a
+              href="/"
+              className="text-sm text-secondary hover:text-foreground transition-colors"
+            >
+              Kembali ke Beranda
+            </a>
+          </div>
         </div>
+      </div>
 
-        <ProgressIndicator currentStep={currentStep} />
+      {/* Main Content */}
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-12">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+          {/* Sidebar - Left */}
+          <div className="lg:col-span-1">
+            <Sidebar user={userProfile} />
+          </div>
 
-        <div className="mt-8">
-          {currentStep === 'syarat-utama' && (
-            <SyaratUtama data={formData.syaratUtama} onNext={handleSyaratUtamaNext} />
-          )}
+          {/* Main Form - Right */}
+          <div className="lg:col-span-3">
+            <div className="text-center mb-8">
+              <h1 className="text-3xl font-bold text-foreground mb-2">
+                Ajukan Pembiayaan KUR
+              </h1>
+              <p className="text-secondary">
+                Lengkapi formulir berikut untuk mengajukan pembiayaan
+              </p>
+            </div>
 
-          {currentStep === 'prescreening' && (
-            <Prescreening
-              data={formData.prescreening}
-              onNext={handlePrescreeningNext}
-              onBack={handleBack}
-            />
-          )}
+            <ProgressIndicatorNew currentStep={currentStep} />
 
-          {currentStep === 'prescreening-result' && (
-            <PrescreeningResult onNext={handlePrescreeningResultNext} />
-          )}
+            <div className="mt-8">
+              {currentStep === 'phone-verification' && (
+                <PhoneVerification
+                  data={formData.phoneVerification}
+                  onNext={handlePhoneVerificationNext}
+                />
+              )}
 
-          {currentStep === 'data-linkumkm' && (
-            <DataLinkUMKM
-              data={formData.dataLinkUMKM}
-              onNext={handleDataLinkUMKMNext}
-              onBack={handleBack}
-            />
-          )}
+              {currentStep === 'upload-documents' && (
+                <UploadDocuments
+                  data={formData.uploadDocuments}
+                  onNext={handleUploadDocumentsNext}
+                  onBack={handleBack}
+                />
+              )}
 
-          {currentStep === 'data-bisnis' && (
-            <DataBisnis
-              data={formData.dataBisnis}
-              onNext={handleDataBisnisNext}
-              onBack={handleBack}
-            />
-          )}
+              {currentStep === 'prescreening' && (
+                <PrescreeningNew
+                  data={formData.prescreening}
+                  onNext={handlePrescreeningNext}
+                  onBack={handleBack}
+                />
+              )}
 
-          {currentStep === 'review' && (
-            <Review data={formData} onSubmit={handleSubmit} onBack={handleBack} />
-          )}
+              {currentStep === 'prescreening-result' && (
+                <PrescreeningResultNew
+                  prescreeningData={formData.prescreening}
+                  onNext={handlePrescreeningResultNext}
+                />
+              )}
+
+              {currentStep === 'data-bisnis' && (
+                <DataBisnisNew
+                  data={formData.dataBisnis}
+                  onNext={handleDataBisnisNext}
+                  onBack={handleBack}
+                />
+              )}
+            </div>
+          </div>
         </div>
       </div>
     </div>

@@ -1,32 +1,40 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { PrescreeningResult as PrescreeningResultType } from '@/types/loan-application';
+import { PrescreeningResult as PrescreeningResultType, PrescreeningData } from '@/types/loan-application';
 
-interface PrescreeningResultProps {
+interface PrescreeningResultNewProps {
+  prescreeningData: PrescreeningData;
   onNext: (result: PrescreeningResultType) => void;
 }
 
-export default function PrescreeningResult({ onNext }: PrescreeningResultProps) {
+export default function PrescreeningResultNew({ prescreeningData, onNext }: PrescreeningResultNewProps) {
   const [status, setStatus] = useState<'submitted' | 'checking' | 'done'>('submitted');
-  const [result, setResult] = useState<'PUMK' | 'KUR' | 'rejected' | null>(null);
+  const [result, setResult] = useState<'KUR' | 'rejected' | null>(null);
 
   useEffect(() => {
     // Simulate prescreening process
     const timer1 = setTimeout(() => setStatus('checking'), 2000);
     const timer2 = setTimeout(() => {
       setStatus('done');
-      // Random result for demo - in production this would be actual API call
-      const results: ('PUMK' | 'KUR' | 'rejected')[] = ['PUMK', 'KUR', 'rejected'];
-      const randomResult = results[Math.floor(Math.random() * results.length)];
-      setResult(randomResult);
+
+      // Determine result based on data
+      const jumlahPengajuan = parseFloat(prescreeningData.profilPengajuan.jumlahPengajuan) || 0;
+      const namaLengkap = prescreeningData.profilNasabah.namaLengkap;
+
+      // Check if rejected (over 100jt or nama contains "Rejected")
+      if (jumlahPengajuan > 100000000 || namaLengkap.toLowerCase().includes('rejected')) {
+        setResult('rejected');
+      } else {
+        setResult('KUR');
+      }
     }, 5000);
 
     return () => {
       clearTimeout(timer1);
       clearTimeout(timer2);
     };
-  }, []);
+  }, [prescreeningData]);
 
   const handleContinue = () => {
     if (result && result !== 'rejected') {
@@ -36,7 +44,7 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
 
   return (
     <div className="max-w-2xl mx-auto">
-      <div className="bg-white rounded-lg shadow-lg p-8">
+      <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
         <h2 className="text-2xl font-bold text-foreground mb-6 text-center">
           Status Prescreening
         </h2>
@@ -52,7 +60,7 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   status === 'submitted' || status === 'checking' || status === 'done'
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-200 text-gray-400'
                 }`}
               >
@@ -65,7 +73,7 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
                     />
                   </svg>
                 ) : (
-                  <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
+                  <div className="w-3 h-3 bg-primary-foreground rounded-full animate-pulse" />
                 )}
               </div>
               <div className="ml-4">
@@ -74,13 +82,13 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
               </div>
             </div>
 
-            <div className="ml-4 w-0.5 h-8 bg-gray-200" />
+            <div className="ml-4 w-0.5 h-8 bg-border" />
 
             <div className="flex items-center">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   status === 'checking' || status === 'done'
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-200 text-gray-400'
                 }`}
               >
@@ -93,7 +101,7 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
                     />
                   </svg>
                 ) : status === 'checking' ? (
-                  <div className="w-3 h-3 bg-white rounded-full animate-pulse" />
+                  <div className="w-3 h-3 bg-primary-foreground rounded-full animate-pulse" />
                 ) : (
                   <div className="w-3 h-3 bg-gray-400 rounded-full" />
                 )}
@@ -108,13 +116,13 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
               </div>
             </div>
 
-            <div className="ml-4 w-0.5 h-8 bg-gray-200" />
+            <div className="ml-4 w-0.5 h-8 bg-border" />
 
             <div className="flex items-center">
               <div
                 className={`w-8 h-8 rounded-full flex items-center justify-center ${
                   status === 'done'
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-200 text-gray-400'
                 }`}
               >
@@ -148,7 +156,7 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
                 </h3>
                 <p className="text-secondary mb-4">
                   Jangan khawatir, tingkatkan kapabilitas usaha melalui pelatihan yang
-                  diadakan oleh LinkUMKM. Petugas Pemasar Kami akan melakukan pengecekan
+                  diadakan oleh LinKUR. Petugas Pemasar Kami akan melakukan pengecekan
                   usaha secara langsung apabila anda sudah dapat menerima pinjaman.
                 </p>
                 <button
@@ -165,23 +173,16 @@ export default function PrescreeningResult({ onNext }: PrescreeningResultProps) 
                 </h3>
                 <p className="text-secondary mb-4">
                   Berdasarkan hasil prescreening, Anda memenuhi syarat untuk pembiayaan{' '}
-                  <span className="font-semibold text-primary">{result}</span>
+                  <span className="font-semibold text-primary">Kredit Usaha Rakyat (KUR)</span>
                 </p>
                 <div className="flex gap-2 mb-4">
-                  {result === 'PUMK' && (
-                    <span className="inline-block px-3 py-1 bg-primary text-white rounded-full text-sm font-medium">
-                      PUMK
-                    </span>
-                  )}
-                  {result === 'KUR' && (
-                    <span className="inline-block px-3 py-1 bg-primary text-white rounded-full text-sm font-medium">
-                      KUR
-                    </span>
-                  )}
+                  <span className="inline-block px-3 py-1 bg-primary text-primary-foreground rounded-full text-sm font-medium">
+                    KUR
+                  </span>
                 </div>
                 <button
                   onClick={handleContinue}
-                  className="w-full py-3 px-6 bg-primary hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
+                  className="w-full py-3 px-6 bg-primary hover:bg-primary-600 text-primary-foreground rounded-lg font-medium transition-colors"
                 >
                   Lanjutkan Pengajuan
                 </button>

@@ -8,7 +8,7 @@ export default function Home() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex justify-between items-center h-16">
             <div className="flex items-center">
-              <h1 className="text-2xl font-bold text-primary">LinkUMKM</h1>
+              <h1 className="text-2xl font-bold text-primary">LinKUR</h1>
             </div>
             <div className="flex items-center gap-4">
               <Link
@@ -35,7 +35,7 @@ export default function Home() {
             Wujudkan Impian Usaha Anda
           </h1>
           <p className="text-xl text-secondary mb-8 max-w-2xl mx-auto">
-            Platform pengajuan pembiayaan UMKM melalui LinkUMKM dan BRI.
+            Platform pengajuan Kredit Usaha Rakyat (KUR) melalui LinKUR dan BRI.
             Dapatkan modal usaha dengan proses yang mudah dan cepat.
           </p>
           <Link
@@ -119,27 +119,39 @@ export default function Home() {
           </div>
         </div>
 
-        {/* CTA Section */}
-        <div className="mt-20 bg-white rounded-2xl shadow-xl p-12 text-center">
-          <h2 className="text-3xl font-bold text-foreground mb-4">
-            Siap Mengembangkan Usaha Anda?
-          </h2>
-          <p className="text-lg text-secondary mb-8">
-            Daftar sekarang dan dapatkan pembiayaan untuk mengembangkan usaha UMKM Anda
-          </p>
-          <div className="flex gap-4 justify-center">
-            <Link
-              href="/ajukan-pinjaman"
-              className="px-8 py-3 bg-primary hover:bg-primary-600 text-white rounded-lg font-semibold transition-colors"
-            >
-              Ajukan Pinjaman
-            </Link>
-            <Link
-              href="/tracker"
-              className="px-8 py-3 border border-gray-300 hover:bg-gray-50 rounded-lg font-semibold text-foreground transition-colors"
-            >
-              Cek Status Pengajuan
-            </Link>
+        {/* CTA Section with Image */}
+        <div className="mt-20 bg-gradient-to-r from-primary to-primary-700 rounded-2xl shadow-2xl overflow-hidden">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8 items-center">
+            <div className="p-12">
+              <h2 className="text-3xl font-bold text-white mb-4">
+                Siap Mengembangkan Usaha Anda?
+              </h2>
+              <p className="text-lg text-white/90 mb-8">
+                Daftar sekarang dan dapatkan pembiayaan KUR untuk mengembangkan usaha UMKM Anda. Proses mudah, cepat, dan terpercaya.
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4">
+                <Link
+                  href="/ajukan-pinjaman"
+                  className="px-8 py-3 bg-white hover:bg-gray-100 text-primary rounded-lg font-semibold transition-colors text-center"
+                >
+                  Ajukan Pinjaman Sekarang
+                </Link>
+                <Link
+                  href="/tracker"
+                  className="px-8 py-3 border-2 border-white hover:bg-white/10 text-white rounded-lg font-semibold transition-colors text-center"
+                >
+                  Cek Status Pengajuan
+                </Link>
+              </div>
+            </div>
+            <div className="relative h-80 md:h-full bg-primary-600">
+              {/* Placeholder for image - replace with actual image */}
+              <div className="absolute inset-0 flex items-center justify-center text-white/30">
+                <svg className="w-48 h-48" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                </svg>
+              </div>
+            </div>
           </div>
         </div>
       </main>
@@ -148,7 +160,7 @@ export default function Home() {
       <footer className="bg-gray-800 text-white mt-20 py-8">
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
           <p className="text-gray-300">
-            © 2025 LinkUMKM x BRI. Platform Pembiayaan UMKM Indonesia.
+            © 2025 LinKUR x BRI. Platform Kredit Usaha Rakyat Indonesia.
           </p>
         </div>
       </footer>

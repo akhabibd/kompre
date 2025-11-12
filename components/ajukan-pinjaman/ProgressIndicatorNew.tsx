@@ -2,20 +2,20 @@
 
 import { ApplicationStep } from '@/types/loan-application';
 
-interface ProgressIndicatorProps {
+interface ProgressIndicatorNewProps {
   currentStep: ApplicationStep;
 }
 
 const steps = [
-  { id: 'syarat-utama', label: 'Syarat Utama', number: 1 },
-  { id: 'prescreening', label: 'Prescreening', number: 2 },
-  { id: 'prescreening-result', label: 'Hasil', number: 3 },
-  { id: 'data-linkumkm', label: 'Data LinkUMKM', number: 4 },
+  { id: 'phone-verification', label: 'Verifikasi HP', number: 1 },
+  { id: 'upload-documents', label: 'Upload Dokumen', number: 2 },
+  { id: 'prescreening', label: 'Prescreening', number: 3 },
+  { id: 'prescreening-result', label: 'Hasil', number: 4 },
   { id: 'data-bisnis', label: 'Data Bisnis', number: 5 },
   { id: 'review', label: 'Review', number: 6 },
 ];
 
-export default function ProgressIndicator({ currentStep }: ProgressIndicatorProps) {
+export default function ProgressIndicatorNew({ currentStep }: ProgressIndicatorNewProps) {
   const currentStepIndex = steps.findIndex((step) => step.id === currentStep);
 
   return (
@@ -27,7 +27,7 @@ export default function ProgressIndicator({ currentStep }: ProgressIndicatorProp
               <div
                 className={`w-10 h-10 rounded-full flex items-center justify-center font-semibold transition-colors ${
                   index <= currentStepIndex
-                    ? 'bg-primary text-white'
+                    ? 'bg-primary text-primary-foreground'
                     : 'bg-gray-200 text-gray-400'
                 }`}
               >
