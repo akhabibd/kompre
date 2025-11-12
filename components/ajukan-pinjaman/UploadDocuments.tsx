@@ -12,6 +12,25 @@ interface UploadDocumentsProps {
 export default function UploadDocuments({ data, onNext, onBack }: UploadDocumentsProps) {
   const [formData, setFormData] = useState<UploadDocumentsType>(data);
 
+  // Demo auto-fill function
+  const handleDemoFill = () => {
+    // Create mock File objects for demo purposes
+    const mockFile = (name: string) => {
+      const blob = new Blob(['mock file content'], { type: 'image/jpeg' });
+      return new File([blob], name, { type: 'image/jpeg' });
+    };
+
+    setFormData({
+      fileKTP: mockFile('e-KTP.jpg'),
+      fileSelfieKTP: mockFile('Selfie-KTP.jpg'),
+      fileKK: mockFile('Kartu-Keluarga.jpg'),
+      fileNPWP: mockFile('NPWP.jpg'),
+      fileSKTU: mockFile('SKTU.jpg'),
+    });
+
+    alert('Demo: Semua dokumen telah diisi otomatis!');
+  };
+
   const handleFileChange = (
     e: React.ChangeEvent<HTMLInputElement>,
     field: keyof UploadDocumentsType
@@ -69,6 +88,17 @@ export default function UploadDocuments({ data, onNext, onBack }: UploadDocument
 
   return (
     <div className="max-w-3xl mx-auto">
+      {/* Demo Button */}
+      <div className="mb-4 flex justify-end">
+        <button
+          type="button"
+          onClick={handleDemoFill}
+          className="px-4 py-2 bg-success hover:bg-success/90 text-white rounded-lg text-sm font-medium transition-colors"
+        >
+          Demo Auto-Fill
+        </button>
+      </div>
+
       <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
         <h2 className="text-2xl font-bold text-foreground mb-2">Upload Dokumen</h2>
         <p className="text-secondary mb-8">
