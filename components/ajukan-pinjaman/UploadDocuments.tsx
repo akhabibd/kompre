@@ -151,7 +151,7 @@ export default function UploadDocuments({ data, onNext, onBack }: UploadDocument
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
-              Lanjut ke Prescreening
+              Submit Pengajuan
             </button>
           </div>
         </form>

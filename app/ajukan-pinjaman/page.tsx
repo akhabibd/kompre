@@ -91,11 +91,6 @@ export default function AjukanPinjamanPage() {
 
   const handlePhoneVerificationNext = (data: PhoneVerificationType) => {
     setFormData({ ...formData, phoneVerification: data });
-    setCurrentStep('upload-documents');
-  };
-
-  const handleUploadDocumentsNext = (data: UploadDocumentsType) => {
-    setFormData({ ...formData, uploadDocuments: data });
     setCurrentStep('prescreening');
   };
 
@@ -111,16 +106,24 @@ export default function AjukanPinjamanPage() {
 
   const handleDataBisnisNext = (data: DataBisnis) => {
     setFormData({ ...formData, dataBisnis: data });
+    setCurrentStep('upload-documents');
+  };
+
+  const handleUploadDocumentsNext = (data: UploadDocumentsType) => {
+    setFormData({ ...formData, uploadDocuments: data });
+    // In production, this would send data to API then redirect
+    console.log('Submitting application:', formData);
+    alert('Pengajuan pinjaman berhasil disubmit!');
     router.push('/tracker');
   };
 
   const handleBack = () => {
     const stepOrder: ApplicationStep[] = [
       'phone-verification',
-      'upload-documents',
       'prescreening',
       'prescreening-result',
       'data-bisnis',
+      'upload-documents',
       'review',
     ];
     const currentIndex = stepOrder.indexOf(currentStep);

@@ -196,7 +196,7 @@ export default function PhoneVerification({ data, onNext }: PhoneVerificationPro
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
-              Lanjutkan ke Upload Dokumen
+              Lanjutkan ke Prescreening
             </button>
           </div>
         </form>

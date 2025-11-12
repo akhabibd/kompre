@@ -8,10 +8,10 @@ interface ProgressIndicatorNewProps {
 
 const steps = [
   { id: 'phone-verification', label: 'Verifikasi HP', number: 1 },
-  { id: 'upload-documents', label: 'Upload Dokumen', number: 2 },
-  { id: 'prescreening', label: 'Prescreening', number: 3 },
-  { id: 'prescreening-result', label: 'Hasil', number: 4 },
-  { id: 'data-bisnis', label: 'Data Bisnis', number: 5 },
+  { id: 'prescreening', label: 'Prescreening', number: 2 },
+  { id: 'prescreening-result', label: 'Hasil', number: 3 },
+  { id: 'data-bisnis', label: 'Data Bisnis', number: 4 },
+  { id: 'upload-documents', label: 'Upload Dokumen', number: 5 },
   { id: 'review', label: 'Review', number: 6 },
 ];
 

@@ -72,10 +72,10 @@ export interface LoanApplicationData {
 
 export type ApplicationStep =
   | 'phone-verification'
-  | 'upload-documents'
   | 'prescreening'
   | 'prescreening-result'
   | 'data-bisnis'
+  | 'upload-documents'
   | 'review';
 
 export interface TrackerStatus {

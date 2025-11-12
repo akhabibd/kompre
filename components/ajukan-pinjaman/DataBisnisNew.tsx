@@ -320,7 +320,7 @@ export default function DataBisnisNew({ data, onNext, onBack }: DataBisnisNewPro
                   : 'bg-gray-200 text-gray-400 cursor-not-allowed'
               }`}
             >
-              Lanjut ke Review
+              Lanjut ke Upload Dokumen
             </button>
           </div>
         </form>
