@@ -12,16 +12,22 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-4">
               <Link
-                href="/ajukan-pinjaman"
-                className="px-4 py-2 bg-primary hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
+                href="/dashboard"
+                className="px-4 py-2 text-secondary hover:text-primary font-medium transition-colors"
               >
-                Ajukan Pinjaman
+                Dashboard Internal
               </Link>
               <Link
                 href="/tracker"
                 className="px-4 py-2 border border-gray-300 hover:bg-gray-50 rounded-lg font-medium text-foreground transition-colors"
               >
                 Cek Status
+              </Link>
+              <Link
+                href="/ajukan-pinjaman"
+                className="px-4 py-2 bg-primary hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
+              >
+                Ajukan Pinjaman
               </Link>
             </div>
           </div>
@@ -115,6 +121,76 @@ export default function Home() {
             <h3 className="text-lg font-semibold text-foreground mb-2">Aman & Terpercaya</h3>
             <p className="text-secondary">
               Bekerja sama dengan BRI untuk keamanan dan kepercayaan Anda
+            </p>
+          </div>
+        </div>
+
+        {/* Internal Staff Section */}
+        <div className="mt-20 bg-gray-50 rounded-2xl shadow-lg p-8 border-2 border-dashed border-gray-300">
+          <div className="text-center max-w-2xl mx-auto">
+            <div className="inline-flex items-center justify-center w-16 h-16 bg-primary/10 rounded-full mb-4">
+              <svg
+                className="w-8 h-8 text-primary"
+                fill="none"
+                stroke="currentColor"
+                viewBox="0 0 24 24"
+              >
+                <path
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth={2}
+                  d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                />
+              </svg>
+            </div>
+            <h3 className="text-2xl font-bold text-foreground mb-2">
+              Akses Dashboard Internal
+            </h3>
+            <p className="text-secondary mb-6">
+              Untuk staff BRI & LinKUR: Monitoring pengajuan, analytics, dan laporan
+            </p>
+            <div className="flex flex-col sm:flex-row gap-3 justify-center">
+              <Link
+                href="/dashboard"
+                className="px-6 py-3 bg-primary hover:bg-primary-600 text-white rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M4 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2V6zM14 6a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2V6zM4 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2H6a2 2 0 01-2-2v-2zM14 16a2 2 0 012-2h2a2 2 0 012 2v2a2 2 0 01-2 2h-2a2 2 0 01-2-2v-2z"
+                  />
+                </svg>
+                Dashboard Monitoring
+              </Link>
+              <Link
+                href="/dashboard/analytics"
+                className="px-6 py-3 border-2 border-primary text-primary hover:bg-primary/5 rounded-lg font-semibold transition-colors inline-flex items-center justify-center gap-2"
+              >
+                <svg
+                  className="w-5 h-5"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"
+                  />
+                </svg>
+                Analytics & Reports
+              </Link>
+            </div>
+            <p className="text-xs text-muted-foreground mt-4">
+              Dashboard ini khusus untuk internal staff. Memerlukan role: Admin, Analyst, atau Staff.
             </p>
           </div>
         </div>
