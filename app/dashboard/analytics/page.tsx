@@ -336,7 +336,7 @@ export default function AnalyticsPage() {
                       <polyline
                         points={points.map(p => `${p.x},${p.y}`).join(' ')}
                         fill="none"
-                        stroke="#3D63DD"
+                        stroke="#0070c0"
                         strokeWidth="2"
                         vectorEffect="non-scaling-stroke"
                         strokeLinejoin="round"
@@ -346,7 +346,7 @@ export default function AnalyticsPage() {
                       {/* Area under line (optional gradient fill) */}
                       <polygon
                         points={`0,100 ${points.map(p => `${p.x},${p.y}`).join(' ')} 100,100`}
-                        fill="#3D63DD"
+                        fill="#0070c0"
                         opacity="0.1"
                       />
 
@@ -357,7 +357,7 @@ export default function AnalyticsPage() {
                             cx={p.x}
                             cy={p.y}
                             r="1.5"
-                            fill="#3D63DD"
+                            fill="#0070c0"
                             vectorEffect="non-scaling-stroke"
                             className="hover:r-2 transition-all cursor-pointer"
                           />
