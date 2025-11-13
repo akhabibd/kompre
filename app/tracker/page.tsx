@@ -5,11 +5,26 @@ import { TrackerStatus, UserProfile } from '@/types/loan-application';
 import Sidebar from '@/components/ajukan-pinjaman/Sidebar';
 
 export default function TrackerPage() {
+  const [trackingId, setTrackingId] = useState('');
+  const [showTracker, setShowTracker] = useState(false);
+
   // Mock user profile - in production this would come from session/API
   const userProfile: UserProfile = {
     name: 'Budi Santoso',
     phone: '08123456789',
     email: 'budi.santoso@email.com',
+  };
+
+  const handleDemo = () => {
+    setTrackingId('APP-120456');
+    setShowTracker(true);
+  };
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    if (trackingId.trim()) {
+      setShowTracker(true);
+    }
   };
 
   // Mock data - in production this would come from API/database
@@ -89,11 +104,74 @@ export default function TrackerPage() {
 
           {/* Main Tracker - Right */}
           <div className="lg:col-span-3">
-            <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
-              <h2 className="text-3xl font-bold text-foreground mb-2">Status Pengajuan</h2>
-              <p className="text-secondary mb-8">
-                Pantau perkembangan pengajuan pembiayaan Anda
-              </p>
+            {!showTracker ? (
+              /* Input Form */
+              <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
+                <h2 className="text-3xl font-bold text-foreground mb-2">Cek Status Pengajuan</h2>
+                <p className="text-secondary mb-8">
+                  Masukkan ID Tracking untuk melihat status pengajuan Anda
+                </p>
+
+                <form onSubmit={handleSubmit} className="space-y-6">
+                  <div>
+                    <label htmlFor="trackingId" className="block text-sm font-medium text-foreground mb-2">
+                      ID Tracking
+                    </label>
+                    <input
+                      type="text"
+                      id="trackingId"
+                      value={trackingId}
+                      onChange={(e) => setTrackingId(e.target.value.toUpperCase())}
+                      placeholder="APP-XXXXXX"
+                      className="w-full px-4 py-3 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent outline-none text-lg font-mono"
+                    />
+                    <p className="mt-2 text-sm text-muted-foreground">
+                      Format: APP-XXXXXX (contoh: APP-120456)
+                    </p>
+                  </div>
+
+                  <div className="flex gap-3">
+                    <button
+                      type="submit"
+                      className="flex-1 py-3 px-6 bg-primary hover:bg-primary-600 text-white rounded-lg font-medium transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                      disabled={!trackingId.trim()}
+                    >
+                      Cek Status
+                    </button>
+                    <button
+                      type="button"
+                      onClick={handleDemo}
+                      className="px-6 py-3 bg-muted hover:bg-muted/80 text-foreground rounded-lg font-medium transition-colors"
+                    >
+                      Demo
+                    </button>
+                  </div>
+                </form>
+
+                <div className="mt-8 p-4 bg-primary/10 rounded-lg border border-primary/20">
+                  <p className="text-sm text-foreground">
+                    <strong>Catatan:</strong> ID Tracking dikirimkan ke email Anda setelah berhasil submit pengajuan.
+                    Jika belum punya ID Tracking, silakan ajukan pinjaman terlebih dahulu.
+                  </p>
+                </div>
+              </div>
+            ) : (
+              /* Timeline Tracker */
+              <div className="bg-card rounded-lg shadow-lg p-8 border border-border">
+                <div className="flex items-center justify-between mb-6">
+                  <div>
+                    <h2 className="text-3xl font-bold text-foreground mb-2">Status Pengajuan</h2>
+                    <p className="text-secondary">
+                      ID Tracking: <span className="font-mono font-bold text-primary">{trackingId}</span>
+                    </p>
+                  </div>
+                  <button
+                    onClick={() => setShowTracker(false)}
+                    className="px-4 py-2 text-sm text-secondary hover:text-foreground transition-colors"
+                  >
+                    ← Kembali
+                  </button>
+                </div>
 
           <div className="relative">
             {/* Vertical Line */}
@@ -187,13 +265,14 @@ export default function TrackerPage() {
 
               <div className="mt-6">
                 <button
-                  onClick={() => window.location.reload()}
-                  className="w-full py-3 px-6 bg-primary hover:bg-primary-600 text-primary-foreground rounded-lg font-medium transition-colors"
+                  onClick={() => setShowTracker(false)}
+                  className="w-full py-3 px-6 bg-muted hover:bg-muted/80 text-foreground rounded-lg font-medium transition-colors"
                 >
-                  Refresh Status
+                  Cek ID Tracking Lain
                 </button>
               </div>
             </div>
+            )}
           </div>
         </div>
       </div>

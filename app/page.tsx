@@ -12,6 +12,12 @@ export default function Home() {
             </div>
             <div className="flex items-center gap-4">
               <Link
+                href="/tracker"
+                className="px-4 py-2 text-primary hover:text-primary-600 font-medium transition-colors"
+              >
+                Cek Status
+              </Link>
+              <Link
                 href="/login"
                 className="px-4 py-2 bg-primary hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
               >
