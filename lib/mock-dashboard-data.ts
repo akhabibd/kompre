@@ -80,8 +80,8 @@ const LOAN_TYPES = ['KUR Mikro'];
 const STATUSES: ApplicationStatus[] = [
   'prescreening',
   'submitted',
-  'in_review',
-  'kunjungan',
+  'review_dokumen',
+  'kunjungan_pemasar',
   'approved',
   'rejected',
   'pencairan'
@@ -208,13 +208,13 @@ export function generateDashboardApplications(count: number = 128): DashboardApp
     // Status distribution: more in early stages
     let currentStep: ApplicationStatus;
     const rand = Math.random();
-    if (rand < 0.15) currentStep = 'prescreening';
-    else if (rand < 0.30) currentStep = 'submitted';
-    else if (rand < 0.50) currentStep = 'in_review';
-    else if (rand < 0.65) currentStep = 'kunjungan';
-    else if (rand < 0.80) currentStep = 'approved';
-    else if (rand < 0.90) currentStep = 'pencairan';
-    else currentStep = 'rejected';
+    if (rand < 0.10) currentStep = 'prescreening'; // 10% still prescreening (won't show in dashboard)
+    else if (rand < 0.25) currentStep = 'submitted'; // 15% submitted
+    else if (rand < 0.50) currentStep = 'review_dokumen'; // 25% review dokumen
+    else if (rand < 0.68) currentStep = 'kunjungan_pemasar'; // 18% kunjungan pemasar
+    else if (rand < 0.85) currentStep = 'approved'; // 17% approved
+    else if (rand < 0.93) currentStep = 'pencairan'; // 8% pencairan
+    else currentStep = 'rejected'; // 7% rejected
 
     const fullData = generateMockFullData(borrower, plafon, kota);
 

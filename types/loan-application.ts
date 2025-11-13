@@ -79,7 +79,7 @@ export type ApplicationStep =
   | 'review';
 
 export interface TrackerStatus {
-  step: 'prescreening' | 'submitted' | 'in_review' | 'kunjungan' | 'approved' | 'rejected' | 'pencairan';
+  step: 'prescreening' | 'submitted' | 'review_dokumen' | 'kunjungan_pemasar' | 'approved' | 'rejected' | 'pencairan';
   date?: string;
   notes?: string;
 }
@@ -97,8 +97,8 @@ export type DashboardRole = 'admin' | 'analyst' | 'staff';
 export type ApplicationStatus =
   | 'prescreening'
   | 'submitted'
-  | 'in_review'
-  | 'kunjungan'
+  | 'review_dokumen'
+  | 'kunjungan_pemasar'
   | 'approved'
   | 'rejected'
   | 'pencairan';

@@ -30,7 +30,10 @@ function formatIDR(value: number): string {
 }
 
 export default function AnalyticsPage() {
-  const [allData] = useState<DashboardApplication[]>(() => generateDashboardApplications(128));
+  // Exclude prescreening (not yet submitted applications)
+  const [allData] = useState<DashboardApplication[]>(() =>
+    generateDashboardApplications(128).filter(app => app.currentStep !== 'prescreening')
+  );
   const [timeRange, setTimeRange] = useState<'7' | '14' | '30'>('30');
 
   // Filter data by time range
@@ -135,10 +138,9 @@ export default function AnalyticsPage() {
 
   // Color mapping for status
   const statusColors: Record<string, string> = {
-    prescreening: '#fbbf24', // warning/yellow
     submitted: '#60a5fa', // blue
-    in_review: '#a78bfa', // purple
-    kunjungan: '#fb923c', // orange
+    review_dokumen: '#a78bfa', // purple
+    kunjungan_pemasar: '#fb923c', // orange
     approved: '#34d399', // success/green
     rejected: '#f87171', // error/red
     pencairan: '#10b981', // green

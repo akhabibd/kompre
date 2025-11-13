@@ -15,22 +15,17 @@ export default function TrackerPage() {
   // Mock data - in production this would come from API/database
   const [trackerData] = useState<TrackerStatus[]>([
     {
-      step: 'prescreening',
-      date: '10 Nov 2025, 10:30',
-      notes: 'Prescreening berhasil diselesaikan',
-    },
-    {
       step: 'submitted',
       date: '10 Nov 2025, 11:15',
       notes: 'Pengajuan telah diterima dan sedang diproses',
     },
     {
-      step: 'in_review',
+      step: 'review_dokumen',
       date: '11 Nov 2025, 09:00',
       notes: 'Tim sedang melakukan review dokumen',
     },
     {
-      step: 'kunjungan',
+      step: 'kunjungan_pemasar',
       date: '',
       notes: '',
     },
@@ -51,12 +46,12 @@ export default function TrackerPage() {
   const getStepLabel = (step: TrackerStatus['step']) => {
     const labels = {
       prescreening: 'Prescreening',
-      submitted: 'Submitted',
-      in_review: 'In Review',
-      kunjungan: 'Kunjungan Tenaga Pemasar',
-      approved: 'Approved',
-      rejected: 'Rejected',
-      pencairan: 'Pencairan',
+      submitted: 'Pengajuan Diterima',
+      review_dokumen: 'Review Dokumen',
+      kunjungan_pemasar: 'Kunjungan Tenaga Pemasar',
+      approved: 'Disetujui',
+      rejected: 'Ditolak',
+      pencairan: 'Pencairan Dana',
     };
     return labels[step];
   };

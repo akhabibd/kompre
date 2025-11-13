@@ -34,8 +34,10 @@ export default function DashboardPage() {
   const [currentRole] = useState<DashboardRole>('admin');
   const [currentUser] = useState('Admin LinKUR');
 
-  // Generate data once
-  const [allData] = useState<DashboardApplication[]>(() => generateDashboardApplications(128));
+  // Generate data once - exclude prescreening (not yet submitted)
+  const [allData] = useState<DashboardApplication[]>(() =>
+    generateDashboardApplications(128).filter(app => app.currentStep !== 'prescreening')
+  );
 
   // Filters
   const [search, setSearch] = useState('');
@@ -66,10 +68,9 @@ export default function DashboardPage() {
   const regionals = useMemo(() => Array.from(new Set(allData.map((d) => d.regional))).sort(), [allData]);
   const statuses = useMemo(
     () => [
-      { value: 'prescreening', label: 'Prescreening' },
       { value: 'submitted', label: 'Submitted' },
-      { value: 'in_review', label: 'In Review' },
-      { value: 'kunjungan', label: 'Kunjungan' },
+      { value: 'review_dokumen', label: 'Review Dokumen' },
+      { value: 'kunjungan_pemasar', label: 'Kunjungan Pemasar' },
       { value: 'approved', label: 'Approved' },
       { value: 'rejected', label: 'Rejected' },
       { value: 'pencairan', label: 'Pencairan' },
