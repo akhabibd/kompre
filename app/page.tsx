@@ -133,10 +133,10 @@ export default function Home() {
               </div>
             </div>
             <div className="relative h-80 md:h-full bg-primary-600">
-              {/* Placeholder for image - replace with actual image */}
+              {/* Chart icon representing UMKM growth */}
               <div className="absolute inset-0 flex items-center justify-center text-white/30">
-                <svg className="w-48 h-48" fill="currentColor" viewBox="0 0 24 24">
-                  <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm0 18c-4.41 0-8-3.59-8-8s3.59-8 8-8 8 3.59 8 8-3.59 8-8 8zm-1-13h2v6h-2zm0 8h2v2h-2z"/>
+                <svg className="w-48 h-48" fill="none" stroke="currentColor" viewBox="0 0 24 24" strokeWidth="1.5">
+                  <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 18L9 11.25l4.306 4.307a11.95 11.95 0 015.814-5.519l2.74-1.22m0 0l-5.94-2.28m5.94 2.28l-2.28 5.941" />
                 </svg>
               </div>
             </div>
