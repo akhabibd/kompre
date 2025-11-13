@@ -358,13 +358,29 @@ export default function DashboardPage() {
             <div className="flex flex-col lg:flex-row gap-4 items-start lg:items-center justify-between">
               <h2 className="text-xl font-semibold text-foreground">Daftar Pengajuan</h2>
               <div className="flex flex-col sm:flex-row gap-3 w-full lg:w-auto">
-                <input
-                  type="text"
-                  value={search}
-                  onChange={(e) => setSearch(e.target.value)}
-                  placeholder="Cari ID, CIF, nama, kota, usaha..."
-                  className="px-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent outline-none flex-1 lg:w-64"
-                />
+                {/* Search with icon */}
+                <div className="relative">
+                  <svg
+                    className="absolute left-3 top-1/2 -translate-y-1/2 w-5 h-5 text-muted-foreground pointer-events-none"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                    />
+                  </svg>
+                  <input
+                    type="text"
+                    value={search}
+                    onChange={(e) => setSearch(e.target.value)}
+                    placeholder="Cari..."
+                    className="pl-10 pr-4 py-2 border border-input rounded-lg focus:ring-2 focus:ring-ring focus:border-transparent outline-none w-full sm:w-40"
+                  />
+                </div>
                 <select
                   value={cityFilter}
                   onChange={(e) => setCityFilter(e.target.value)}
