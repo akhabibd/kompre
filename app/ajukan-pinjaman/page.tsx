@@ -115,11 +115,26 @@ export default function AjukanPinjamanPage() {
     setCurrentStep('review');
   };
 
+  const [showSuccessModal, setShowSuccessModal] = useState(false);
+  const [trackingId, setTrackingId] = useState('');
+
+  const generateTrackingId = () => {
+    // Generate unique tracking ID (APP-XXXXXX format)
+    const randomNum = Math.floor(100000 + Math.random() * 900000);
+    return `APP-${randomNum}`;
+  };
+
   const handleFinalSubmit = () => {
     // In production, this would send data to API then redirect
     console.log('Submitting application:', formData);
-    alert('Pengajuan pinjaman berhasil disubmit!');
-    router.push('/tracker');
+    const newTrackingId = generateTrackingId();
+    setTrackingId(newTrackingId);
+    setShowSuccessModal(true);
+  };
+
+  const copyTrackingId = () => {
+    navigator.clipboard.writeText(trackingId);
+    alert('ID Tracking berhasil disalin!');
   };
 
   const handleBack = () => {
@@ -230,6 +245,91 @@ export default function AjukanPinjamanPage() {
           </div>
         </div>
       </div>
+
+      {/* Success Modal */}
+      {showSuccessModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-card rounded-lg shadow-2xl max-w-md w-full p-8 border border-border">
+            <div className="text-center">
+              {/* Success Icon */}
+              <div className="mx-auto w-16 h-16 bg-success/10 rounded-full flex items-center justify-center mb-4">
+                <svg
+                  className="w-10 h-10 text-success"
+                  fill="none"
+                  stroke="currentColor"
+                  viewBox="0 0 24 24"
+                >
+                  <path
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth={2}
+                    d="M5 13l4 4L19 7"
+                  />
+                </svg>
+              </div>
+
+              <h2 className="text-2xl font-bold text-foreground mb-2">
+                Pengajuan Berhasil Disubmit!
+              </h2>
+              <p className="text-secondary mb-6">
+                Pengajuan pinjaman Anda telah diterima dan sedang diproses
+              </p>
+
+              {/* Tracking ID Box */}
+              <div className="bg-primary/10 border-2 border-primary border-dashed rounded-lg p-6 mb-6">
+                <p className="text-sm text-muted-foreground mb-2">ID Tracking Anda:</p>
+                <div className="text-3xl font-bold text-primary mb-4">{trackingId}</div>
+                <button
+                  onClick={copyTrackingId}
+                  className="px-4 py-2 bg-primary/20 hover:bg-primary/30 text-primary rounded-lg font-medium transition-colors text-sm flex items-center gap-2 mx-auto"
+                >
+                  <svg
+                    className="w-4 h-4"
+                    fill="none"
+                    stroke="currentColor"
+                    viewBox="0 0 24 24"
+                  >
+                    <path
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth={2}
+                      d="M8 16H6a2 2 0 01-2-2V6a2 2 0 012-2h8a2 2 0 012 2v2m-6 12h8a2 2 0 002-2v-8a2 2 0 00-2-2h-8a2 2 0 00-2 2v8a2 2 0 002 2z"
+                    />
+                  </svg>
+                  Salin ID
+                </button>
+              </div>
+
+              <div className="bg-muted/30 rounded-lg p-4 mb-6 text-left">
+                <p className="text-sm text-foreground mb-2">
+                  <strong>Langkah Selanjutnya:</strong>
+                </p>
+                <ul className="text-sm text-secondary space-y-1 list-disc list-inside">
+                  <li>Simpan ID tracking Anda untuk cek status</li>
+                  <li>Proses review dokumen: 1-2 hari kerja</li>
+                  <li>Kunjungan pemasar akan dijadwalkan</li>
+                  <li>Total proses: 3-5 hari kerja</li>
+                </ul>
+              </div>
+
+              <div className="flex gap-3">
+                <button
+                  onClick={() => router.push('/')}
+                  className="flex-1 py-3 px-6 bg-muted hover:bg-muted/80 text-foreground rounded-lg font-medium transition-colors"
+                >
+                  Kembali ke Beranda
+                </button>
+                <button
+                  onClick={() => router.push('/tracker')}
+                  className="flex-1 py-3 px-6 bg-primary hover:bg-primary-600 text-white rounded-lg font-medium transition-colors"
+                >
+                  Cek Status
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
